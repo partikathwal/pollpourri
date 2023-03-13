@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Poll-pourri - Results</title>
+
+
+
+    <link href="https://fonts.googleapis.com/css?family=PT+Sans" rel="stylesheet">
+
+    <!-- JQUERY -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/6.0.1/firebase-app.js"></script>
+
+    <!-- TODO: Add SDKs for Firebase products that you want to use
+        https://firebase.google.com/docs/web/setup#config-web-app -->
+    <script src="https://www.gstatic.com/firebasejs/6.0.1/firebase-database.js"></script>
+
+    <script>
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyCr6TGjUDxjvdogIy3aM7qUAuw_RtMlfsQ",
+            authDomain: "poll-pourri.firebaseapp.com",
+            databaseURL: "https://poll-pourri.firebaseio.com",
+            projectId: "poll-pourri",
+            storageBucket: "poll-pourri.appspot.com",
+            messagingSenderId: "311288945947",
+            appId: "1:311288945947:web:0e0ce9e7a2ac44cf49c7be"
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+    </script>
+    <script src="./library.js"></script>
+
+<!--
+    <style>
+        html, body {
+            font-family: 'PT Sans', sans-serif;
+            height: 100%;
+            margin: 0;
+        }
+        #graph {
+            display: flex;
+        }
+        .barLabel {
+            font-size: 2em;
+        }
+        #wins, #losses {
+            position: relative;
+            height: 500px;
+            width: 100px;
+            
+            margin: 10px;
+            background: #333;
+        }
+        .bar {
+            width: 100px;
+            position: absolute;
+            bottom: 0;
+        }
+
+        #wins .bar {
+            background: rgb(0, 255, 0);
+        }
+        #losses .bar {
+            background: rgb(255, 54, 54);
+        }
+
+        #graph {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            
+        }
+        #numWins, #numLosses, .barLabel, #title {
+            text-align: center;
+        }
+        #numWins, #numLosses {
+            font-size: 3em;
+        }
+
+        #title {
+            font-size: 2em;
+        }
+        #nameList {
+            /* display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            flex-wrap: wrap; */
+            
+            height: 80%;
+            width: 400px;
+        }
+
+        .nameItem {
+            background: rgb(0, 72, 105);
+            color: white;
+            text-align: center;
+            padding: 5px;
+            margin: 5px;
+            width: 100px;
+            display: inline-block;
+        }
+    </style>
+-->
+    <style>
+        html, body {
+            font-family: 'PT Sans', sans-serif;
+            height: 100%;
+            margin: 0;
+        }
+
+        #title {
+            background-color: rgb(245, 233, 211);
+            height: 150px;
+            margin-bottom: 10px;
+        }
+        #title img {
+            display: block;
+            margin: 0 auto;
+            height: 100%;
+        }
+
+        #main {
+            display: flex;
+            width: 100%;
+        }
+        #graph {
+            flex: 2;
+        }
+        #users {
+            flex: 1;
+        }
+
+
+        #question {
+            font-size: 2em;
+            font-weight: 600;
+        }
+
+        .opt {
+            font-size: 2em;
+            margin-bottom: 1em;
+            margin-top: 1em;
+        }
+        .option {
+            padding: 5px 0;
+        }
+        .bar-row {
+            display: flex;
+            align-items: center;
+        }
+        .bar-container {
+            flex: 4;
+            display: inline-block;
+        }
+        .count {
+            flex: 1;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .bar-container {
+            height: 50px;
+            width: 100%;
+            background: #333;
+            border-radius: 5px;
+        }
+
+        .bar {
+            height: 100%;
+            width: 0%;
+            background: rgb(45, 226, 181);
+            border-radius: 5px;
+        }
+
+        #userCount {
+            text-align: center;
+            font-size: 2em;
+        }
+        #nameList {
+            display: flex;
+            flex-flow: row wrap;
+        }
+        .nameItem {
+            background: rgb(0, 72, 105);
+            color: white;
+            text-align: center;
+            padding: 5px;
+            margin: 5px;
+            min-width: 100px;
+        }
+
+        #toggleScreen {
+            padding: .8em;
+            background: white;
+            color: black;
+            border-width: 0;
+            border-radius: 3px;
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            cursor: pointer;
+            transition: box-shadow .2s;
+            z-index: 5;
+        }
+        #toggleScreen:hover {
+            box-shadow: 0 2px 5px 0 #333;
+            background: lightblue;
+        }
+        #qrCodeScreen {
+            display: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            width: 100vw;
+            background: url("./linkImage.png");
+            background-size: contain;
+        }
+    </style>
+</head>
+<body>
+    <button id="toggleScreen">TOGGLE QR CODE</button>
+    <div id="qrCodeScreen"></div>
+    <div id="title">
+        <img src="./logo.png">
+    </div>
+    <div id="main">
+        
+        <div id="users">
+            <div id="userCount"></div>
+            <div id="nameList"></div>
+        </div>
+
+        <div id="graph">
+            <div id="question"></div>
+            <div id="answers">
+                <div id="opt1" class="opt">
+                    <div class="option">&nbsp;</div>
+                    <div class="bar-row">
+                        <div class="bar-container">
+                            <div class="bar"></div>
+                        </div>
+                        <div class="count"></div>
+                    </div>
+                </div>
+                <div id="opt2" class="opt">
+                    <div class="option">&nbsp;</div>
+                    <div class="bar-row">
+                        <div class="bar-container">
+                            <div class="bar"></div>
+                        </div>
+                        <div class="count"></div>
+                    </div>
+                </div>
+                <div id="opt3" class="opt">
+                    <div class="option">&nbsp;</div>
+                    <div class="bar-row">
+                        <div class="bar-container">
+                            <div class="bar"></div>
+                        </div>
+                        <div class="count"></div>
+                    </div>
+                </div>
+                <div id="opt4" class="opt">
+                    <div class="option">&nbsp;</div>
+                    <div class="bar-row">
+                        <div class="bar-container">
+                            <div class="bar"></div>
+                        </div>
+                        <div class="count"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        document.getElementById("toggleScreen").addEventListener("click", function(){
+            let display = document.getElementById("qrCodeScreen").style.display;
+            console.log(display);
+            if(display === "none" || display === ""){
+                document.getElementById("qrCodeScreen").style.display = "block"
+            }else{
+                document.getElementById("qrCodeScreen").style.display = "none";
+            }
+        })
+        
+        let data = {
+            roundID: null,
+            results: {
+                opt1: 0,
+                opt2: 0,
+                opt3: 0,
+                opt4: 0
+            }
+        }
+
+        
+        function setBarWidth(){
+
+            if(users.length === 0) return;
+
+            let opt1 = data.results.opt1 / users.length * 100;
+            let opt2 = data.results.opt2 / users.length * 100;
+            let opt3 = data.results.opt3 / users.length * 100;
+            let opt4 = data.results.opt4 / users.length * 100;
+            
+            $("#opt1 .bar").width(opt1+"%");
+            $("#opt2 .bar").width(opt2+"%");
+            $("#opt3 .bar").width(opt3+"%");
+            $("#opt4 .bar").width(opt4+"%");
+            $("#opt1 .count").text(`${opt1.toFixed(1)}% (${data.results.opt1})`);
+            $("#opt2 .count").text(`${opt2.toFixed(1)}% (${data.results.opt2})`);
+            $("#opt3 .count").text(`${opt3.toFixed(1)}% (${data.results.opt3})`);
+            $("#opt4 .count").text(`${opt4.toFixed(1)}% (${data.results.opt4})`);
+        }
+
+
+        trackCurrentRound(async function(roundID){
+            if(!roundID && data.roundID) location.reload();
+            if(!roundID) return false;
+
+            //delete listeners for previous round wins/losses
+            if(data.roundID){
+                firebase.database().ref("rounds/"+data.roundID+"/results").off("value")
+            }
+
+            //update roundID
+            data.roundID = roundID;
+            let round = await getRound(roundID);
+            round.id = roundID;
+
+            $("#question").text(round.question.text);
+            $("#opt1 .option").text(round.question.options.opt1);
+            $("#opt2 .option").text(round.question.options.opt2);
+            $("#opt3 .option").text(round.question.options.opt3);
+            $("#opt4 .option").text(round.question.options.opt4);
+
+            //track results
+            firebase.database().ref("rounds/"+roundID+"/results/opt1").on("value", function(snap){
+                console.log(snap.val());
+                data.results.opt1 = snap.val();
+                setBarWidth();
+            })
+            firebase.database().ref("rounds/"+roundID+"/results/opt2").on("value", function(snap){
+                console.log(snap.val());
+                data.results.opt2 = snap.val();
+                setBarWidth();
+            })
+            firebase.database().ref("rounds/"+roundID+"/results/opt3").on("value", function(snap){
+                console.log(snap.val());
+                data.results.opt3 = snap.val();
+                setBarWidth();
+            })
+            firebase.database().ref("rounds/"+roundID+"/results/opt4").on("value", function(snap){
+                console.log(snap.val());
+                data.results.opt4 = snap.val();
+                setBarWidth();
+            })
+
+        })
+
+        let users = [];
+
+        firebase.database().ref("users").on("child_added", (snap) => {
+            let userID = snap.key;
+            let user = snap.val();
+            user.id = userID;
+
+            users.push(user);
+            updateNameList();
+            setBarWidth();
+        })
+
+        firebase.database().ref("users").on("child_changed", (snap) => {
+            let user = snap.val()
+            user.id = snap.key;
+            let myUser = users.find(u => user.id === u.id );
+            if(myUser) myUser.name = user.name;
+            updateNameList();
+            setBarWidth();
+        })
+
+        function updateNameList(){
+            $("#userCount").text(`${users.length} Player${users.length !== 1? 's' : ''}`)
+
+            $("#nameList").empty();
+            let nameItem = $(`<div class="nameItem"></div>`);
+            users.forEach(u => $("#nameList").append(nameItem.clone().text(u.name)))
+
+            // for(let i = 0; i < 29; i++){
+            //     $("#nameList").append(nameItem.clone().text("Name Lastname"))
+            // }
+        }
+        
+    </script>
+
+</body>
+</html>

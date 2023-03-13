@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Poll-pourri - Master</title>
+
+
+
+    <link href="https://fonts.googleapis.com/css?family=PT+Sans" rel="stylesheet">
+    <!-- JQUERY -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/6.0.1/firebase-app.js"></script>
+
+    <!-- TODO: Add SDKs for Firebase products that you want to use
+        https://firebase.google.com/docs/web/setup#config-web-app -->
+    <script src="https://www.gstatic.com/firebasejs/6.0.1/firebase-database.js"></script>
+
+    <script src="https://www.gstatic.com/firebasejs/6.0.1/firebase-storage.js"></script>
+
+    <script>
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyCr6TGjUDxjvdogIy3aM7qUAuw_RtMlfsQ",
+            authDomain: "poll-pourri.firebaseapp.com",
+            databaseURL: "https://poll-pourri.firebaseio.com",
+            projectId: "poll-pourri",
+            storageBucket: "poll-pourri.appspot.com",
+            messagingSenderId: "311288945947",
+            appId: "1:311288945947:web:0e0ce9e7a2ac44cf49c7be"
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+    </script>
+    <script src="./library.js"></script>
+    
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            font-family: 'PT Sans', sans-serif;
+        }
+
+        #title {
+            background-color: rgb(245, 233, 211);
+            height: 150px;
+            margin-bottom: 10px;
+        }
+        #title img {
+            display: block;
+            margin: 0 auto;
+            height: 100%;
+        }
+
+
+        #questionGrid {
+            display: flex;
+            flex-wrap: wrap;
+            flex-direction: row;
+            justify-content: center;
+            width: 80%;
+            margin: 0 auto;
+        }
+
+        .questionButton {
+            min-width: 100%;
+            background: rgb(7, 90, 122);
+            color: white;
+            text-align: center;
+            font-size: 16px;
+            margin: 10px;
+            padding: 10px;
+            cursor: pointer;
+            transition: .1s;
+        }
+        .questionButton:hover {
+            background: rgb(21, 102, 177);
+            box-shadow: 0 0 10px 0 #333;
+        }
+
+        #newGame {
+            width: 300px;
+            height: 40px;
+            background: rgb(255, 136, 0);
+            color: white;
+            text-align: center;
+            font-size: 16px;
+            line-height: 40px;
+            margin: 10px;
+            cursor: pointer;
+            transition: .1s;
+            display: inline-block;
+        }
+        #newGame:hover {
+            box-shadow: 0 0 10px 0 #333;
+        }
+    </style>
+</head>
+<body>
+    <div id="title">
+        <img src="./logo.png">
+    </div>
+    <div style="text-align:center; margin-bottom: 10px;">
+        <div id="newGame">
+            START A BRAND NEW GAME
+        </div>
+        <div><i>(This totally resets the game. It kicks everyone out and erases the poll results.)</i></div>
+    </div>
+    <hr>
+
+    <div id="questionGrid"></div>
+
+    <script>
+    
+    
+        //initialize
+        const data = {
+            questions: getQuestions()
+        }
+            
+
+        //getQuestions().then((questions) => {
+            generateGrid(data.questions);
+        //})
+
+        //generate grid
+        function generateGrid(questions){
+            let questionButton = $(`<div class="questionButton"></div>`);
+            $("#questionGrid").append( questions.map(q => questionButton.clone().text(q.text)) );
+        }
+
+
+        $("#questionGrid").on("click", ".questionButton", function(){
+            
+            let questionText = $(this).text();
+            let question = data.questions.find(q => q.text === questionText);
+            //playAudio(song).then(function(){
+                console.log(question);
+                createRound(question);
+            //})
+            $(this).css("opacity", 0.5);
+            
+        })
+
+        // function playAudio(name){
+        //     console.log("play audio")
+        //     //get source
+        //     return firebase.storage().ref(name+".mp3").getDownloadURL().then((url) => {
+        //         console.log(url);
+        //         var audio = new Audio();
+        //         audio.src = url;
+        //         audio.play();
+        //     })
+        // }
+
+        $("#newGame").on("click", function(){
+            firebase.database().ref("users").set(null)
+            .then(function(){
+                return firebase.database().ref("rounds").set(null);
+            })
+            .then(function(){
+                return firebase.database().ref("currentRound").set(null);
+            })
+            .then(function(){
+                alert("Game has been reset!")
+                location.reload();
+            })
+        })
+    
+    </script>
+
+</body>
+</html>

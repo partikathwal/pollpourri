@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Poll-pourri - Player</title>
+
+
+    <link href="https://fonts.googleapis.com/css?family=PT+Sans" rel="stylesheet">
+
+    <!-- JQUERY -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/6.0.1/firebase-app.js"></script>
+
+    <!-- TODO: Add SDKs for Firebase products that you want to use
+        https://firebase.google.com/docs/web/setup#config-web-app -->
+    <script src="https://www.gstatic.com/firebasejs/6.0.1/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.0.1/firebase-storage.js"></script>
+
+    <script>
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyCr6TGjUDxjvdogIy3aM7qUAuw_RtMlfsQ",
+            authDomain: "poll-pourri.firebaseapp.com",
+            databaseURL: "https://poll-pourri.firebaseio.com",
+            projectId: "poll-pourri",
+            storageBucket: "poll-pourri.appspot.com",
+            messagingSenderId: "311288945947",
+            appId: "1:311288945947:web:0e0ce9e7a2ac44cf49c7be"
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+    </script>
+    <script src="./library.js"></script>
+
+
+    <!-- <link rel="stylesheet" href="style.css" /> -->
+
+    <style>
+        html, body {
+            margin: 0;
+            font-family: 'PT Sans', sans-serif;
+            height: 100%;
+        }
+
+        .box {
+            padding:1em;
+            background: #ddd;
+            color: black;
+            text-align: center;
+            margin: 20px;
+            box-shadow: 0 3px 5px 0 #999;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #modal {
+            height: 100%;
+            width: 100%;
+            background: rgba(0, 0, 0, .9);
+            display: flex;
+            position: absolute;
+            top: 0;
+            left: 0;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #modalBox {
+            width: 300px;
+            background: white;
+            text-align: center;
+            padding: 10px;
+            box-shadow: 0 3px 10px 0 #333;
+            border-radius: 5px;
+        }
+        #modalBox img {
+            display: block;
+            width: 100%;
+            border-radius: 5px;
+        }
+        #modalBox input {
+            width: 80%;
+            font-size: 1.5em;
+            text-align: center;
+        }
+        #error {
+            color: red;
+            height: 20px;
+        }
+
+
+
+
+        #topbar {
+            font-size: 1.5em;
+            background-color:rgb(0, 55, 117);
+            color: white;
+            display: flex;
+        }
+
+        #wins {
+            width: 2.5em;
+            text-align: center;
+            padding: .5em;
+        }
+        #winCount {
+            background: rgb(0, 187, 0);
+            border-radius: 5px;
+            padding: .5em;
+        }
+        #name {
+            text-align: center;
+            flex-grow: 1;
+            padding: 1em;
+        }
+        #losses {
+            width: 2.5em;
+            text-align: center;
+            padding: .5em;
+        }
+        #lossCount {
+            background: red;
+            padding: .5em;
+            border-radius: 5px;
+        }
+
+
+
+        #question {
+            text-align: center;
+            font-weight: bold;
+            font-size: 1.5em;
+            margin: 20px;
+        }
+
+
+
+        #timer {
+            background: #222;
+            color: white;
+            text-align: center;
+            margin: 20px auto;
+            width: 60%;
+            font-size: 2em;
+            position: relative;
+        }
+        #time {
+            height: 100%;
+            width: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+        #timeBar {
+            height: 100%;
+            width: 100%;
+        }
+        #timeBarMask {
+            height: 100%;
+            width: 100%;
+            border: 10px solid white;
+            position: absolute;
+            top: 0;
+            left: 0;
+            transform: translate(-10px, -10px);
+            border-radius: 2em;
+        }
+
+        .green {
+            background: rgb(0, 192, 0)
+        }
+        .red {
+            background: rgb(192, 0, 0)
+        }
+        .yellow {
+            background: yellow;
+            color: black;
+        }
+        .blue {
+            /* background: rgb(0, 128, 202); */
+            background: rgb(39, 190, 153);
+            color: white;
+        }
+    </style>
+    
+</head>
+<body>
+
+
+
+
+    <div id="topbar">
+        <div id="name"></div>
+    </div>
+    <div id="question">
+        Thanks for joining!<br>Please wait for a question.
+    </div>
+    <div id="timer">
+        <div id="time"></div>
+        <div id="timeBar">&nbsp;</div>
+        <div id="timeBarMask">&nbsp;</div>
+    </div>
+
+    <hr>
+
+    <div id="choices"></div>
+    
+    <div id="modal">
+        <div id="modalBox">
+            <img src="./logo.png">
+            <p>What's Your Name?</p>
+            <input id="nameInput">
+            <p id="error"></p>
+            <div class="box" id="nameSubmit">Enter the Game</div>
+        </div>
+    </div>
+
+
+    <script>
+
+
+
+
+
+        let data = {
+            userID: "-LeUmoV22qzfnIMg2uWB",
+            questions: getQuestions(),
+            round: null,
+            intervalHandler: null,
+            roundActive: false
+        }
+
+
+        $("#modal").hide();
+        
+        async function pageAccessed(){
+            let uid = getCookie("userID");
+            let user = await getUser(uid);
+
+            if(uid && user){
+                data.userID = uid;
+                let n = getCookie("name");
+                if(n){
+                    $("#name").text(n);
+                    //get existing user
+                    getUser(data.userID).then((user) => {
+                        initialize();
+                    })
+
+                }else{
+                    $("#modal").show();
+                }
+            }else{
+                eraseCookie("name");
+                createUser().then((userID) => {
+                    data.userID = userID;
+                    setCookie("userID", userID, 1);
+                    $("#modal").show();
+                })
+            }
+
+            
+        }
+        
+        pageAccessed();
+        
+        $("#nameSubmit").on("click", function(){
+            let name = $("#nameInput").val().trim();
+            if(!name){
+                $("#error").text("Please enter a name")
+                return;
+            }
+
+            updateUserName(data.userID, name).then(function(){
+                setCookie("name", name, 1);
+                $("#modal").hide();
+                $("#name").text(name);
+                initialize();
+            })
+        })
+
+
+        $("#name").on("click", function(){
+            $("#modal").show();
+        })
+
+        async function initialize(){
+            //data.songs = await getSongs();
+            addRoundListener(async function(roundID){
+                console.log("round changed!")
+                console.log(roundID, data.round);
+                if(!roundID && data.round){
+                    console.log("Yo")
+                    $("#modalBox").empty().append("<p>Thanks for playing!</p>");
+                    $("#modal").show();
+                    firebase.database().ref("currentRound").off();
+                    return;
+                }
+                if(!roundID) return;
+
+                let round = await getRound(roundID);
+                if(!round) return false;
+                
+                round.id = roundID;
+                data.round = round;
+                startRound(round);
+            })
+        }
+
+        async function startRound(round){
+            console.log("Hghjkdls")
+            reset();
+            //let songOptions = await getSongOptions(data.songs, round.song, 4);
+            // generateChoices(songOptions);
+            $("#question").text(round.question.text);
+            generateChoices(Object.values(round.question.options));
+            startTimer(round.startTime);
+        }
+
+        function generateChoices(options){
+            let $box = $(`<div class="box"></div>`);
+            let $choices = $("#choices");
+            console.log(options)
+            options.forEach((song) => {
+                // let isCorrect = song === data.round.song;
+                let choice = $box.clone();
+                // if(isCorrect) choice.addClass("correct");
+                choice.text(song).appendTo($choices);
+            });
+        }
+
+        $("#choices").on("click", ".box", function(){
+            if(data.roundActive === false) return false;
+
+            let option = $(this).text();
+            // let correct = checkAnswer(song);
+
+            // if(correct){
+            //     if(correctAudio) correctAudio.play();
+            //     $(this).addClass("green");
+            //     updateTallies(data.userID, data.round.id, true).then((snap) => {
+            //         $("#winCount").text(snap.val());
+            //     })
+            // }else{
+            //     if(incorrectAudio) incorrectAudio.play();
+            //     $(this).addClass("red");
+            //     $(".correct").addClass("yellow");
+            //     updateTallies(data.userID, data.round.id, false).then((snap) => {
+            //         $("#lossCount").text(snap.val());
+            //     })
+            // }
+            $(this).addClass("blue");
+            let optionName = Object.keys(data.round.question.options).find(k => data.round.question.options[k] === option);
+            updateTallies(data.userID, data.round.id, optionName);
+
+            endTimer();
+
+        })
+
+
+        function checkAnswer(song){
+            return data.round.song === song;
+        }
+
+        function startTimer(startTime){
+            let totalTime = 15000; //15 seconds
+            startTime = parseInt(startTime);
+            let endTime = startTime + totalTime;
+            let $timer = $("#timer");
+            let $timeBar = $("#timeBar");
+            let $time = $("#time");
+            $timeBar.width("100%").css("background", "green");//.removeClass().addClass("green");
+
+            data.intervalHandler = setInterval(function(){
+                
+                data.roundActive = true;
+                let timeLeft = endTime - new Date().getTime();
+                if(timeLeft < 0){
+                    // $time.text("0.00");
+                    $timeBar.width("0%");
+                    endTimer();
+                    // endRound()
+                }else{
+                    // https://www.desmos.com/calculator/wj7i0rmhcm
+                    let green = 255 - (Math.pow((timeLeft - totalTime*1.2)/totalTime, 6) * 255);
+                    let red = 255 - Math.pow(timeLeft/totalTime, 6) * 255;
+                    // let green = (timeLeft/totalTime * 255);
+                    // let red = 255 - green;
+                    $timeBar.css("background", `rgb(${red},${green},0)`);
+                    let w = (timeLeft/totalTime * 100);
+                    w = w > 100 ? 100 : w;
+                    $timeBar.width( w + "%" );
+                    
+                    // let time = (timeLeft/1000).toFixed(2);
+                    // $time.text(time);
+                    
+                }
+                
+            }, 68);
+        }
+
+        function endTimer(){
+            clearInterval(data.intervalHandler);
+            data.roundActive = false;
+        }
+
+        function endRound(){
+            $(".correct").addClass("yellow");
+        }
+
+        function reset(){
+            $("#choices").empty();
+            $("#timer").text();
+        }
+
+        
+
+
+
+        // let correctAudio = null;
+        // let incorrectAudio = null;
+        // firebase.storage().ref("correct.wav").getDownloadURL().then((url) => {
+        //     var audio = new Audio();
+        //     audio.src = url;
+        //     correctAudio = audio;
+        // })
+        // firebase.storage().ref("incorrect.wav").getDownloadURL().then((url) => {
+        //     var audio = new Audio();
+        //     audio.src = url;
+        //     incorrectAudio = audio;
+        // })
+
+        
+        // function playAudio(name){
+        //     console.log("play audio")
+        //     //get source
+        //     return firebase.storage().ref(name+".wav").getDownloadURL().then((url) => {
+        //         var audio = new Audio();
+        //         audio.src = url;
+        //         audio.play();
+        //     })
+            
+        // }
+        //================================
+
+        function setCookie(name,value,days) {
+            var expires = "";
+            if (days) {
+                var date = new Date();
+                date.setTime(date.getTime() + (days*24*60*60*1000));
+                expires = "; expires=" + date.toUTCString();
+            }
+            document.cookie = name + "=" + (value || "")  + expires + "; path=/";
+        }
+        function getCookie(name) {
+            var nameEQ = name + "=";
+            var ca = document.cookie.split(';');
+            for(var i=0;i < ca.length;i++) {
+                var c = ca[i];
+                while (c.charAt(0)==' ') c = c.substring(1,c.length);
+                if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+            }
+            return null;
+        }
+        function eraseCookie(name) {   
+            document.cookie = name+'=; Max-Age=-99999999;';  
+        }
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,92 @@
+[
+        {
+            text: "What is their favorite cleaning task?",
+            options: {
+                opt1: "High Dusting",
+                opt2: "Upholstery Cleaning",
+                opt3: "Chandelier Cleaning",
+                opt4: "Tile Floor Cleaning"
+            }
+        },
+        {
+            text: "How long have they volunteered at Jersey City Assembly Hall?",
+            options: {
+                opt1: "2 years",
+                opt2: "5 years",
+                opt3: "8 years",
+                opt4: "15 years"
+            }
+        },
+        {
+            text: "Which of these countries have they NOT been to for an international convention?",
+            options: {
+                opt1: "Japan",
+                opt2: "Ecuador",
+                opt3: "Madagascar",
+                opt4: "Chile"
+            }
+        },
+        {
+            text: "Where do you think they will be assigned?",
+            options: {
+                opt1: "Alaska",
+                opt2: "Foreign Language",
+                opt3: "Jersey City Assembly Hall",
+                opt4: "Puerto Rico"
+            }
+        },
+        {
+            text: "What is their least favorite machine?",
+            options: {
+                opt1: "Rug Doctor",
+                opt2: "Cookie Monster",
+                opt3: "Kaivac",
+                opt4: "Backpack Vacuum"
+            }
+        },
+        {
+            text: "How long have they been married?",
+            options: {
+                opt1: "5 years",
+                opt2: "22 years",
+                opt3: "12 years",
+                opt4: "18 years"
+            }
+        },
+        {
+            text: "What was the FIRST department they worked in at JCAH?",
+            options: {
+                opt1: "Events (Weekend Couple)",
+                opt2: "Building Maintenance",
+                opt3: "Cleaning",
+                opt4: "Technical"
+            }
+        },
+        {
+            text: "What is Sylvia’s best dessert?",
+            options: {
+                opt1: "Rum Cake",
+                opt2: "Chocolate Chip Cookies",
+                opt3: "Guava Puffs",
+                opt4: "Cupcakes"
+            }
+        },
+        {
+            text: "What Alex’s favorite game?",
+            options: {
+                opt1: "Rummikub",
+                opt2: "Chess",
+                opt3: "Dominoes",
+                opt4: "Checkers"
+            }
+        },
+        {
+            text: "How much are we going to miss them?",
+            options: {
+                opt1: "I’m not crying, you’re crying!",
+                opt2: "Mondays will never be the same.",
+                opt3: "Only when we have to power wash the sidewalks.",
+                opt4: "Alex, can I have your car?"
+            }
+        }
+    ]
