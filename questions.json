@@ -1,0 +1,110 @@
+[
+    {
+        "text": "When did they arrive at JCAH?",
+        "options": {
+            "opt1": "2016",
+            "opt2": "2017",
+            "opt3": "2018",
+            "opt4": "2019"
+        }
+    },
+    {
+        "text": "Which Assembly Hall did they first serve at?",
+        "options": {
+            "opt1": "Madera, California",
+            "opt2": "Belleville, Michigan",
+            "opt3": "Denton, Texas",
+            "opt4": "Richmond, Virginia"
+        }
+    },
+    {
+        "text": "Which Assembly Hall did they serve at next?",
+        "options": {
+            "opt1": "Conyers, Georgia",
+            "opt2": "Natick, Massachusetts",
+            "opt3": "La Feria, Texas",
+            "opt4": "St. Louis, Missouri"
+        }
+    },
+    {
+        "text": "What was their home Assembly Hall?",
+        "options": {
+            "opt1": "La Feria, Texas",
+            "opt2": "Conyers, Georgia",
+            "opt3": "Denton, Texas",
+            "opt4": "Mira Loma, California"
+        }
+    },
+    {
+        "text": "What is the proper response to this...?",
+        "options": {
+            "opt1": "Wuh oh",
+            "opt2": "Ay ay ay",
+            "opt3": "Oh Cielos",
+            "opt4": "No pos wow"
+        }
+    },
+    {
+        "text": "What does Ralph say to get you to do something?",
+        "options": {
+            "opt1": "Just do it!",
+            "opt2": "3, 2, 1... Go",
+            "opt3": "Ándale!",
+            "opt4": "I'll pay you..."
+        }
+    },
+    {
+        "text": "When is the Urbina's anniversary?",
+        "options": {
+            "opt1": "December 28th",
+            "opt2": "July 15th",
+            "opt3": "October 5th",
+            "opt4": "February 30th"
+        }
+    },
+    {
+        "text": "What is Ralph's favorite food?",
+        "options": {
+            "opt1": "🍔 Jollibee",
+            "opt2": "🌮 Tacos",
+            "opt3": "🍕 Pizza",
+            "opt4": "🤤 Anything with hot sauce"
+        }
+    },
+    {
+        "text": "What is Ralph's favorite hobby?",
+        "options": {
+            "opt1": "Cooking",
+            "opt2": "Playing Nintendo",
+            "opt3": "Watching Documentaries",
+            "opt4": "Parkour"
+        }
+    },
+    {
+        "text": "What is Adriana's favorite hobby?",
+        "options": {
+            "opt1": "Tennis",
+            "opt2": "Reading",
+            "opt3": "Drawing",
+            "opt4": "Sorting crayons"
+        }
+    },
+    {
+        "text": "When Ralph says \"What's his name?\" and no one is nearby, what does he really mean?",
+        "options": {
+            "opt1": "\"I have to call someone\"",
+            "opt2": "\"I forgot what I was doing\"",
+            "opt3": "\"What time is it?\"",
+            "opt4": "\"Where is Adriana??\""
+        }
+    },
+    {
+        "text": "What was Adriana's job before LDC?",
+        "options": {
+            "opt1": "Interior Designer",
+            "opt2": "Accountant",
+            "opt3": "Teacher",
+            "opt4": "Golf Instructor"
+        }
+    }
+]

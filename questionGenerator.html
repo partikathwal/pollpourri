@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Question Generator</title>
+</head>
+<body>
+
+    <button id="download">Download</button>
+    <form id="form">
+        Question: <input type="text" id="question"><br>
+        Option 1: <input type="text" id="opt1"><br>
+        Option 2: <input type="text" id="opt2"><br>
+        Option 3: <input type="text" id="opt3"><br>
+        Option 4: <input type="text" id="opt4"><br>
+        <button type="button" id="add">Add Poll Question</button><br>
+    </form>
+    <br>
+    <hr>
+    <br>
+    <div id="questionList"></div>
+
+    <template id="pollQuestionTemplate">
+        <div class="pollQuestion">
+            Question: <input type="text" class="question"><br>
+            Option 1: <input type="text" class="opt1"><br>
+            Option 2: <input type="text" class="opt2"><br>
+            Option 3: <input type="text" class="opt3"><br>
+            Option 4: <input type="text" class="opt4"><br>
+            <button type="button" class="delete" data-id="0">Delete</button><br>
+        </div>
+    </template>
+
+    <script>
+        
+        const form = document.getElementById("form");
+        const question = document.getElementById("question");
+        const opt1 = document.getElementById("opt1");
+        const opt2 = document.getElementById("opt2");
+        const opt3 = document.getElementById("opt3");
+        const opt4 = document.getElementById("opt4");
+        const add = document.getElementById("add");
+        
+        const download = document.getElementById("download");
+        
+        const questionList = document.getElementById("questionList");
+        const pollQuestionTemplate = document.getElementById("pollQuestionTemplate");
+
+        const pollQuestions = [];
+
+        add.addEventListener("click", addPollQuestion);
+
+        function addPollQuestion(){
+            const pollQuestion = {
+                text: question.value,
+                options: {
+                    opt1: opt1.value,
+                    opt2: opt2.value,
+                    opt3: opt3.value,
+                    opt4: opt4.value
+                }
+            };
+
+            pollQuestions.push(pollQuestion);
+            renderQuestionList();
+            form.reset();
+        }
+
+        function renderQuestionList(){
+            questionList.innerHTML = "";
+            for(let i = 0; i < pollQuestions.length; i++){
+                const pollQuestion = pollQuestions[i];
+
+                const pollQuestionDiv = pollQuestionTemplate.cloneNode(true).content;
+                pollQuestionDiv.querySelector(".question").value = pollQuestion.text;
+                pollQuestionDiv.querySelector(".opt1").value = pollQuestion.options.opt1;
+                pollQuestionDiv.querySelector(".opt2").value = pollQuestion.options.opt2;
+                pollQuestionDiv.querySelector(".opt3").value = pollQuestion.options.opt3;
+                pollQuestionDiv.querySelector(".opt4").value = pollQuestion.options.opt4;
+                pollQuestionDiv.querySelector(".delete").setAttribute("data-id", i);
+
+                questionList.appendChild(pollQuestionDiv);
+            }
+        }
+
+        questionList.addEventListener("click", (e) => {
+            if(e.target.classList.contains("delete")){
+                const i = parseInt(e.target.getAttribute("data-id"));
+                pollQuestions.splice(i, 1);
+                renderQuestionList();
+            }
+        })
+
+        function downloadFile(text, filename){
+            const anchor = document.createElement('a');
+            anchor.setAttribute('href', 'data:application/json;charset=utf-8,' + encodeURIComponent(text));
+            anchor.setAttribute('download', filename);
+            anchor.click();
+        }
+
+        download.addEventListener("click", () => {
+            const text = JSON.stringify(pollQuestions, null, 4);
+            downloadFile(text, "questions.json");
+        })
+
+    </script>
+
+</body>
+</html>

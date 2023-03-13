@@ -55,111 +55,111 @@ function getUser(userID){
 function getQuestions(){
     return [
         {
-            text: "What was the most recent project at JCAH?",
-            options: {
-                opt1: "Installing new carpet on the stage",
-                opt2: "Installing a new video wall",
-                opt3: "Replacing the plumbing in the downstairs restrooms",
-                opt4: "Renovating the kitchen"
+            "text": "When did they arrive at JCAH?",
+            "options": {
+                "opt1": "2016",
+                "opt2": "2017",
+                "opt3": "2018",
+                "opt4": "2019"
             }
         },
         {
-            text: "How many LED panels were installed on the new video wall?",
-            options: {
-                opt1: "15",
-                opt2: "56",
-                opt3: "154",
-                opt4: "221"
+            "text": "Which Assembly Hall did they first serve at?",
+            "options": {
+                "opt1": "Madera, California",
+                "opt2": "Belleville, Michigan",
+                "opt3": "Denton, Texas",
+                "opt4": "Richmond, Virginia"
             }
         },
         {
-            text: "Approximately, how many LDC volunteers worked on the video wall project?",
-            options: {
-                opt1: "50",
-                opt2: "100",
-                opt3: "175",
-                opt4: "250"
+            "text": "Which Assembly Hall did they serve at second?",
+            "options": {
+                "opt1": "Conyers, Georgia",
+                "opt2": "Natick, Massachusetts",
+                "opt3": "La Feria, Texas",
+                "opt4": "St. Louis, Missouri"
             }
         },
         {
-            text: "How many nights in total did the hosts provide rooming for the LDC volunteers?",
-            options: {
-                opt1: "220",
-                opt2: "320",
-                opt3: "420",
-                opt4: "520"
+            "text": "What was their home Assembly Hall?",
+            "options": {
+                "opt1": "La Feria, Texas",
+                "opt2": "Conyers, Georgia",
+                "opt3": "Denton, Texas",
+                "opt4": "Mira Loma, California"
             }
         },
         {
-            text: "Approximately, much money did the hosts save the branch in hotel fees by opening up their homes?",
-            options: {
-                opt1: "$10,000",
-                opt2: "$30,000",
-                opt3: "$40,000",
-                opt4: "$50,000"
+            "text": "What is the proper response to this...?",
+            "options": {
+                "opt1": "Wuh oh",
+                "opt2": "Ay ay ay",
+                "opt3": "Oh Cielos",
+                "opt4": "No pos wow"
             }
         },
         {
-            text: "With that savings how many Kingdom Halls in Africa is the organization able to build?",
-            options: {
-                opt1: "2",
-                opt2: "6",
-                opt3: "9",
-                opt4: "15"
+            "text": "What does Ralph say to get you to do something?",
+            "options": {
+                "opt1": "Just do it!",
+                "opt2": "3, 2, 1... Go!",
+                "opt3": "Ándale!",
+                "opt4": "I'll pay you..."
             }
         },
         {
-            text: "What is the average travel time from the host's home to JCAH WITHOUT traffic?",
-            options: {
-                opt1: "10 minutes",
-                opt2: "20 minutes",
-                opt3: "30 minutes",
-                opt4: "1 hour"
+            "text": "When is the Urbinas' wedding anniversary?",
+            "options": {
+                "opt1": "December 28th",
+                "opt2": "July 15th",
+                "opt3": "October 5th",
+                "opt4": "February 30th"
             }
         },
         {
-            text: "What is the average travel time from the host's home to JCAH WITH Jersey traffic?",
-            options: {
-                opt1: "1 hour",
-                opt2: "2 hour",
-                opt3: "3 hour",
-                opt4: "What am I doing in the city… I want to go home..."
+            "text": "What is Ralph's favorite food?",
+            "options": {
+                "opt1": "🍔 Jollibee",
+                "opt2": "🌮 Tacos",
+                "opt3": "🍕 Pizza",
+                "opt4": "🤤 Anything with hot sauce"
             }
         },
         {
-            text: "How many of our hosts have pets?",
-            options: {
-                opt1: "10%",
-                opt2: "20%",
-                opt3: "30%",
-                opt4: "40%"
+            "text": "What is Ralph's favorite hobby?",
+            "options": {
+                "opt1": "Cooking",
+                "opt2": "Playing Nintendo",
+                "opt3": "Watching Documentaries",
+                "opt4": "Parkour"
             }
         },
         {
-            text: "How many times this past year has Alana texted you and asked you to assist with rooming?",
-            options: {
-                opt1: "10",
-                opt2: "20",
-                opt3: "30",
-                opt4: "1,000"
+            "text": "What is Adriana's favorite hobby?",
+            "options": {
+                "opt1": "Tennis",
+                "opt2": "Reading",
+                "opt3": "Horseback Riding",
+                "opt4": "Sorting crayons"
             }
         },
         {
-            text: "How have you personally benefited from extending yourself with rooming?",
-            options: {
-                opt1: "We have made lasting friendships",
-                opt2: "We have experienced the joy of supporting theocratic projects",
-                opt3: "We have set an example of hospitality for our family and others",
-                opt4: "All of the above"
+            "text": "When Ralph says \"What's his name?\" and no one is nearby, what does he really mean?",
+            "options": {
+                "opt1": "\"I have to call someone\"",
+                "opt2": "\"I forgot what I was doing\"",
+                "opt3": "\"What time is it?\"",
+                "opt4": "\"Where is Adriana??\""
             }
         },
         {
-            text: "How much does it cost to pick up a volunteer from LaGuardia airport?",
-            options: {
-                opt1: "$10.00",
-                opt2: "$20.00",
-                opt3: "$30.00",
-                opt4: "$45.00"
+            "text": "What was Adriana's job before LDC?",
+            "options": {
+                "opt1": "Interior Designer",
+                "opt2": "Accountant",
+                "opt3": "Teacher",
+                "opt4": "Golf Instructor"
             }
         }
     ];
